@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import './ContaNegocio.css';
-import accountNegocio from '/src/assets/images/account-negocio1.png';
+import accountNegocio from '/src/assets/images/conta-negocio-menu.png';
 import backIcon from '/src/assets/images/back-icon.svg';
 import ButtonLink from './ButtonLink';
 

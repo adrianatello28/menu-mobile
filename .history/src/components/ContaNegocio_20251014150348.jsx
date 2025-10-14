@@ -1,12 +1,30 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import './ContaNegocio.css';
-import prueba21 from '/src/assets/images/prueba21.png'; // Re-using placeholder image
-import iconArrow from '/src/assets/images/icon-arrow.svg';
+import accountNegocio from '/src/assets/images/conta-negocio-menu.png';
 import backIcon from '/src/assets/images/back-icon.svg';
+import ButtonLink from './ButtonLink';
 
-const ContaNegocio = ({ onBack, onSelectItem }) => {
+const ContaNegocio = ({ onBack, onSelectItem, onScrollChange }) => {
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    const handleScroll = () => {
+      if (!scrollContainer) return;
+      const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
+      const isAtBottom = scrollHeight - scrollTop <= clientHeight + 1;
+      onScrollChange(!isAtBottom);
+    };
+
+    if (scrollContainer) {
+      handleScroll();
+      scrollContainer.addEventListener('scroll', handleScroll);
+      return () => scrollContainer.removeEventListener('scroll', handleScroll);
+    }
+  }, [onScrollChange]);
+
   return (
-    <div className="conta-negocio">
+    <div className="conta-negocio" ref={scrollRef}>
       <div className="conta-negocio__header">
         <button onClick={onBack} className="conta-negocio__back-button">
           <img src={backIcon} alt="Volver" className="conta-negocio__back-icon" />
@@ -15,11 +33,10 @@ const ContaNegocio = ({ onBack, onSelectItem }) => {
       </div>
       <div className="conta-negocio__container">
         <div className="conta-negocio__account">
-          <div className="conta-negocio__account-image" style={{ backgroundImage: `url(${prueba21})` }} />
-          <a href="#" className="conta-negocio__account-cta">
-            <span>Conhecer Conta Negocio</span>
-            <img src={iconArrow} alt="Arrow" className="conta-negocio__cta-icon" />
-          </a>
+          <div className="conta-negocio__account-image" style={{ backgroundImage: `url(${accountNegocio})` }} />
+          <div className="conta-negocio__account-cta-container">
+            <ButtonLink text="Conhecer Conta Negocio" />
+          </div>
         </div>
         <div className="conta-negocio__list">
           {/* Section 1 */}
